@@ -4,9 +4,11 @@ import com.sparta.levelone.dto.BlogRequestDto;
 import com.sparta.levelone.dto.BlogResponseDto;
 import com.sparta.levelone.entity.Blog;
 import com.sparta.levelone.repository.BlogRepository;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class BlogService {
 
     private final BlogRepository blogRepository;
