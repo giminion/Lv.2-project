@@ -3,7 +3,6 @@ package com.sparta.levelone.controller;
 import com.sparta.levelone.dto.BlogRequestDto;
 import com.sparta.levelone.dto.BlogResponseDto;
 import com.sparta.levelone.service.BlogService;
-import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -14,8 +13,8 @@ public class BlogController {
 
     private final BlogService blogService;
 
-    public BlogController(JdbcTemplate jdbcTemplate) {
-        this.blogService = new BlogService(jdbcTemplate);
+    public BlogController(BlogService blogService) {
+        this.blogService = blogService;
     }
 
     @PostMapping("/blog")

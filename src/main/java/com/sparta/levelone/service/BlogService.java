@@ -4,7 +4,6 @@ import com.sparta.levelone.dto.BlogRequestDto;
 import com.sparta.levelone.dto.BlogResponseDto;
 import com.sparta.levelone.entity.Blog;
 import com.sparta.levelone.repository.BlogRepository;
-import org.springframework.jdbc.core.JdbcTemplate;
 
 import java.util.List;
 
@@ -12,8 +11,8 @@ public class BlogService {
 
     private final BlogRepository blogRepository;
 
-    public BlogService(JdbcTemplate jdbcTemplate) {
-        this.blogRepository = new BlogRepository(jdbcTemplate);
+    public BlogService(BlogRepository blogRepository) {
+        this.blogRepository = blogRepository;
     }
 
     public BlogResponseDto createBlog(BlogRequestDto requestDto) {
