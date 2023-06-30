@@ -12,33 +12,29 @@ import java.util.List;
 @RequestMapping("/api")
 public class BlogController {
 
-    private final JdbcTemplate jdbcTemplate;
+    private final BlogService blogService;
 
     public BlogController(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
+        this.blogService = new BlogService(jdbcTemplate);
     }
 
     @PostMapping("/blog")
     public BlogResponseDto createBlog(@RequestBody BlogRequestDto requestDto) {
-        BlogService blogService = new BlogService(jdbcTemplate);
         return blogService.createBlog(requestDto);
     }
 
     @GetMapping("/blog")
     public List<BlogResponseDto> getBlog() {
-        BlogService blogService = new BlogService(jdbcTemplate);
         return blogService.getBlog();
     }
 
     @PutMapping("/blog/{id}")
     public Long updateBlog(@PathVariable Long id, @RequestBody BlogRequestDto requestDto) {
-        BlogService blogService = new BlogService(jdbcTemplate);
         return blogService.updateBlog(id,requestDto);
     }
 
     @DeleteMapping("/blog/{id}")
     public Long deleteBlog(@PathVariable Long id) {
-        BlogService blogService = new BlogService(jdbcTemplate);
         return blogService.deleteBlog(id);
     }
 }

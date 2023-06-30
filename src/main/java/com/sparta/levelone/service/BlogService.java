@@ -10,17 +10,16 @@ import java.util.List;
 
 public class BlogService {
 
-    private final JdbcTemplate jdbcTemplate;
+    private final BlogRepository blogRepository;
 
     public BlogService(JdbcTemplate jdbcTemplate) {
-        this.jdbcTemplate = jdbcTemplate;
+        this.blogRepository = new BlogRepository(jdbcTemplate);
     }
 
     public BlogResponseDto createBlog(BlogRequestDto requestDto) {
         // RequestDto -> Entity
         Blog blog = new Blog(requestDto);
 
-        BlogRepository blogRepository = new BlogRepository(jdbcTemplate);
         Blog saveBlog = blogRepository.save(blog);
 
         // Entity -> ResponseDto
@@ -31,12 +30,10 @@ public class BlogService {
 
     public List<BlogResponseDto> getBlog() {
         // DB 조회
-        BlogRepository blogRepository = new BlogRepository(jdbcTemplate);
         return blogRepository.findAll();
     }
 
     public Long updateBlog(Long id, BlogRequestDto requestDto) {
-        BlogRepository blogRepository = new BlogRepository(jdbcTemplate);
         // 해당 메모가 DB에 존재하는지 확인
         Blog blog = blogRepository.findById(id);
         if(blog != null) {
@@ -50,7 +47,6 @@ public class BlogService {
     }
 
     public Long deleteBlog(Long id) {
-        BlogRepository blogRepository = new BlogRepository(jdbcTemplate);
         // 해당 메모가 DB에 존재하는지 확인
         Blog blog = blogRepository.findById(id);
         if(blog != null) {
