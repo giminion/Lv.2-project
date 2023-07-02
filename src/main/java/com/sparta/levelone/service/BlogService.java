@@ -4,6 +4,7 @@ import com.sparta.levelone.dto.BlogRequestDto;
 import com.sparta.levelone.dto.BlogResponseDto;
 import com.sparta.levelone.entity.Blog;
 import com.sparta.levelone.repository.BlogRepository;
+import jakarta.transaction.Transactional;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -31,34 +32,32 @@ public class BlogService {
 
     public List<BlogResponseDto> getBlog() {
         // DB 조회
-        return blogRepository.findAll();
+        return blogRepository.findAll().stream().map(BlogResponseDto::new).toList();
     }
 
+    @Transactional
     public Long updateBlog(Long id, BlogRequestDto requestDto) {
         // 해당 메모가 DB에 존재하는지 확인
-        Blog blog = blogRepository.findById(id);
-        if(blog != null) {
-            // memo 내용 수정
-            blogRepository.update(id,requestDto);
+        Blog blog = findBlog(id);
+        // memo 내용 수정
+        blog.update(requestDto);
 
-            return id;
-        } else {
-            throw new IllegalArgumentException("선택한 게시물은 존재하지 않습니다.");
-        }
+        return id;
     }
 
     public Long deleteBlog(Long id) {
         // 해당 메모가 DB에 존재하는지 확인
-        Blog blog = blogRepository.findById(id);
-        if(blog != null) {
-            // memo 삭제
-            blogRepository.delete(id);
+        Blog blog = findBlog(id);
 
-            return id;
-        } else {
-            throw new IllegalArgumentException("선택한 게시물은 존재하지 않습니다.");
-        }
+        // memo 삭제
+        blogRepository.delete(blog);
+
+        return id;
     }
 
-
+    private Blog findBlog(Long id){
+        return blogRepository.findById(id).orElseThrow(() ->
+                new IllegalArgumentException("선택한 게시물은 존재하지 않습니다.")
+        );
+    }
 }
