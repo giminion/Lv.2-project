@@ -11,7 +11,7 @@ import lombok.Setter;
 @Setter
 @Table(name = "blog") //  매핑할 블로그 명 지정
 @NoArgsConstructor
-public class Blog {
+public class Blog extends Timestamped {
 
     @Id // 식별자
     @GeneratedValue(strategy = GenerationType.IDENTITY) // auto_increment 걸어주기
