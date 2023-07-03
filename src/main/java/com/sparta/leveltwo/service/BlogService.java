@@ -1,9 +1,9 @@
-package com.sparta.levelone.service;
+package com.sparta.leveltwo.service;
 
-import com.sparta.levelone.dto.BlogRequestDto;
-import com.sparta.levelone.dto.BlogResponseDto;
-import com.sparta.levelone.entity.Blog;
-import com.sparta.levelone.repository.BlogRepository;
+import com.sparta.leveltwo.dto.BlogRequestDto;
+import com.sparta.leveltwo.dto.BlogResponseDto;
+import com.sparta.leveltwo.entity.Blog;
+import com.sparta.leveltwo.repository.BlogRepository;
 import jakarta.transaction.Transactional;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;

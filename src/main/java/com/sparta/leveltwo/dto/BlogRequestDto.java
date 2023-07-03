@@ -1,4 +1,4 @@
-package com.sparta.levelone.dto;
+package com.sparta.leveltwo.dto;
 
 import lombok.Getter;
 

@@ -1,10 +1,10 @@
-package com.sparta.levelone.controller;
+package com.sparta.leveltwo.controller;
 
-import com.sparta.levelone.dto.BlogRequestDto;
-import com.sparta.levelone.dto.BlogResponseDto;
-import com.sparta.levelone.service.BlogService;
+import com.sparta.leveltwo.dto.BlogRequestDto;
+import com.sparta.leveltwo.dto.BlogResponseDto;
+import com.sparta.leveltwo.service.BlogService;
+import com.sparta.leveltwo.entity.Blog;
 import org.springframework.web.bind.annotation.*;
-import com.sparta.levelone.entity.Blog;
 
 import java.util.List;
 import java.util.Optional;
