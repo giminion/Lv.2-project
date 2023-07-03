@@ -5,9 +5,12 @@ import com.sparta.levelone.dto.BlogResponseDto;
 import com.sparta.levelone.entity.Blog;
 import com.sparta.levelone.repository.BlogRepository;
 import jakarta.transaction.Transactional;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
+import org.springframework.web.server.ResponseStatusException;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class BlogService {
@@ -18,6 +21,7 @@ public class BlogService {
         this.blogRepository = blogRepository;
     }
 
+    // 게시글 작성 API
     public BlogResponseDto createBlog(BlogRequestDto requestDto) {
         // RequestDto -> Entity
         Blog blog = new Blog(requestDto);
@@ -30,29 +34,41 @@ public class BlogService {
         return blogResponseDto;
     }
 
+    // 전체 게시글 목록 조회 API
     public List<BlogResponseDto> getBlog() {
-        // DB 조회
-        return blogRepository.findAll().stream().map(BlogResponseDto::new).toList();
+        return blogRepository.findAllByOrderByModifiedAtDesc().stream().map(BlogResponseDto::new).toList();
     }
 
+    // 특정 게시글 목록 조회 API
+    public Optional<Blog> getBlogById(Long id){
+        return blogRepository.findById(id);
+    }
+
+    // 선택한 게시글 수정 API
     @Transactional
-    public Long updateBlog(Long id, BlogRequestDto requestDto) {
-        // 해당 메모가 DB에 존재하는지 확인
+    public BlogResponseDto updateBlog(Long id, BlogRequestDto requestDto) {
+        // 해당 게시물이 DB에 존재하는지 확인
         Blog blog = findBlog(id);
-        // memo 내용 수정
-        blog.update(requestDto);
 
-        return id;
+        if(blog.getPassword()==requestDto.getPassword()){
+            blog.update(requestDto);
+        }else{
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "비밀번호가 틀렸습니다.");
+        }
+
+        return new BlogResponseDto(blog);
     }
 
-    public Long deleteBlog(Long id) {
-        // 해당 메모가 DB에 존재하는지 확인
+    // 선택한 게시글 삭제 API
+    public String deleteBlog(Long id,BlogRequestDto requestDto) {
+        // 해당 게시물이 DB에 존재하는지 확인
         Blog blog = findBlog(id);
-
-        // memo 삭제
-        blogRepository.delete(blog);
-
-        return id;
+        if(blog.getPassword()==requestDto.getPassword()){
+            blogRepository.delete(blog);
+        }else{
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "비밀번호가 틀렸습니다.");
+        }
+        return "삭제했습니다!";  // 삭제 성공을 알림
     }
 
     private Blog findBlog(Long id){

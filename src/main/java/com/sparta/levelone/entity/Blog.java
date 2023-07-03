@@ -42,10 +42,6 @@ public class Blog extends Timestamped {
         this.title = requestDto.getTitle();
     }
 
-    public void setId(Long id) {
-        this.id = id;
-    }
-
     public Long getId() {
         return id;
     }
