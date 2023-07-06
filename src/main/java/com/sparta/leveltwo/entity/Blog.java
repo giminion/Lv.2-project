@@ -17,8 +17,8 @@ public class Blog extends Timestamped {
     @GeneratedValue(strategy = GenerationType.IDENTITY) // auto_increment 걸어주기
     private Long id;
 
-    @Column(name ="username", nullable = false)
-    private String username;
+    @Column(name ="author", nullable = false)
+    private String author;
 
     @Column(name = "contents", nullable = false, length = 500) // length의 디폴트는 255
     private String contents;
@@ -26,18 +26,14 @@ public class Blog extends Timestamped {
     @Column(name = "title", nullable = false, length = 300)
     private String title;
 
-    @Column(name = "password" )
-    private int password;
 
-    public Blog(BlogRequestDto requestDto) {
-        this.username = requestDto.getUsername();
+    public Blog(BlogRequestDto requestDto, String username) {
+        this.author = username;
         this.contents = requestDto.getContents();
         this.title = requestDto.getTitle();
-        this.password = requestDto.getPassword();
     }
 
     public void update(BlogRequestDto requestDto) {
-        this.username = requestDto.getUsername();
         this.contents = requestDto.getContents();
         this.title = requestDto.getTitle();
     }

@@ -2,12 +2,13 @@ package com.sparta.leveltwo.controller;
 
 import com.sparta.leveltwo.dto.BlogRequestDto;
 import com.sparta.leveltwo.dto.BlogResponseDto;
+import com.sparta.leveltwo.dto.MessageResponseDto;
+import com.sparta.leveltwo.jwt.JwtUtil;
 import com.sparta.leveltwo.service.BlogService;
-import com.sparta.leveltwo.entity.Blog;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api")
@@ -21,8 +22,8 @@ public class BlogController {
 
     // 게시글 작성 API
     @PostMapping("/blog")
-    public BlogResponseDto createBlog(@RequestBody BlogRequestDto requestDto) {
-        return blogService.createBlog(requestDto);
+    public BlogResponseDto createBlog(@RequestHeader(JwtUtil.AUTHORIZATION_HEADER) String tokenValue, @RequestBody BlogRequestDto requestDto) {
+        return blogService.createBlog(tokenValue, requestDto);
     }
 
     // 전체 게시글 목록 조회 API
@@ -33,19 +34,19 @@ public class BlogController {
 
     // 특정 게시물 조회
     @GetMapping("/blog/{id}")
-    public Optional<Blog> getBlogById(@PathVariable Long id){
+    public BlogResponseDto getBlogById(@PathVariable Long id){
         return blogService.getBlogById(id);
     }
 
     // 게시물 수정 API
     @PutMapping("/blog/{id}")
-    public BlogResponseDto updateBlog(@PathVariable Long id, @RequestBody BlogRequestDto requestDto) {
-        return blogService.updateBlog(id,requestDto);
+    public BlogResponseDto updateBlog(@RequestHeader(JwtUtil.AUTHORIZATION_HEADER) String tokenValue, @PathVariable Long id, @RequestBody BlogRequestDto requestDto) {
+        return blogService.updateBlog(tokenValue, id, requestDto);
     }
 
     // 게시물 삭제 API
     @DeleteMapping("/blog/{id}")
-    public String deleteBlog(@PathVariable Long id, @RequestBody BlogRequestDto requestDto) {
-        return blogService.deleteBlog(id,requestDto);
+    public ResponseEntity<MessageResponseDto> deleteBlog(@RequestHeader(JwtUtil.AUTHORIZATION_HEADER) String tokenValue, @PathVariable Long id) {
+        return blogService.deleteBlog(tokenValue, id);
     }
 }
