@@ -40,13 +40,13 @@ public class BlogController {
 
     // 게시물 수정 API
     @PutMapping("/blog/{id}")
-    public BlogResponseDto updateBlog(@RequestHeader(JwtUtil.AUTHORIZATION_HEADER) String tokenValue, @PathVariable Long id, @RequestBody BlogRequestDto requestDto) {
+    public BlogResponseDto updateBlog(@CookieValue(JwtUtil.AUTHORIZATION_HEADER) String tokenValue, @PathVariable Long id, @RequestBody BlogRequestDto requestDto) {
         return blogService.updateBlog(tokenValue, id, requestDto);
     }
 
     // 게시물 삭제 API
     @DeleteMapping("/blog/{id}")
-    public ResponseEntity<MessageResponseDto> deleteBlog(@RequestHeader(JwtUtil.AUTHORIZATION_HEADER) String tokenValue, @PathVariable Long id) {
+    public ResponseEntity<MessageResponseDto> deleteBlog(@CookieValue(JwtUtil.AUTHORIZATION_HEADER) String tokenValue, @PathVariable Long id) {
         return blogService.deleteBlog(tokenValue, id);
     }
 }
