@@ -5,8 +5,7 @@ import lombok.Getter;
 @Getter
 public class BlogRequestDto {
 
-    private String contents;
-
     private String title;
 
+    private String content;
 }

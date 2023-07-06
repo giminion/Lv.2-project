@@ -57,7 +57,7 @@ public class UserService {
         );
 
         // 비밀번호 확인
-        if(passwordEncoder.matches(password,user.getPassword())){
+        if(!passwordEncoder.matches(password,user.getPassword())){
             throw new IllegalArgumentException("비밀번호가 일치하지 않습니다.");
         }
 

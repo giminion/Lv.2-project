@@ -53,12 +53,12 @@ public class BlogService {
     }
 
     // 전체 게시글 목록 조회 API
-    public List<BlogResponseDto> getBlog() {
+    public List<BlogResponseDto> getBlogs() {
         return blogRepository.findAllByOrderByModifiedAtDesc().stream().map(BlogResponseDto::new).toList();
     }
 
     // 특정 게시글 목록 조회 API
-    public BlogResponseDto getBlogById(Long id){
+    public BlogResponseDto getBlog(Long id){
         // 해당 게시글 존재하는지 확인
         Blog blog = findBlog(id);
         return new BlogResponseDto(blog);
@@ -114,6 +114,8 @@ public class BlogService {
         if(!username.equals(blog.getAuthor())) {
             throw new IllegalArgumentException("해당 게시물을 작성한 사용자가 아닙니다.");
         }
+
+        blogRepository.delete(blog);
 
         return new ResponseEntity<MessageResponseDto>(new MessageResponseDto("게시물 삭제 성공", "200"), HttpStatus.OK);
     }

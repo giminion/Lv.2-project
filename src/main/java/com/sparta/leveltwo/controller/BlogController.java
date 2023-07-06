@@ -20,22 +20,22 @@ public class BlogController {
         this.blogService = blogService;
     }
 
-    // 게시글 작성 API
-    @PostMapping("/blog")
-    public BlogResponseDto createBlog(@RequestHeader(JwtUtil.AUTHORIZATION_HEADER) String tokenValue, @RequestBody BlogRequestDto requestDto) {
-        return blogService.createBlog(tokenValue, requestDto);
-    }
-
     // 전체 게시글 목록 조회 API
     @GetMapping("/blog")
-    public List<BlogResponseDto> getBlog() {
-        return blogService.getBlog();
+    public List<BlogResponseDto> getBlogs() {
+        return blogService.getBlogs();
     }
 
     // 특정 게시물 조회
     @GetMapping("/blog/{id}")
-    public BlogResponseDto getBlogById(@PathVariable Long id){
-        return blogService.getBlogById(id);
+    public BlogResponseDto getBlog(@PathVariable Long id){
+        return blogService.getBlog(id);
+    }
+
+    // 게시글 작성 API
+    @PostMapping("/blog")
+    public BlogResponseDto createBlog(@RequestHeader(JwtUtil.AUTHORIZATION_HEADER) String tokenValue, @RequestBody BlogRequestDto requestDto) {
+        return blogService.createBlog(tokenValue, requestDto);
     }
 
     // 게시물 수정 API

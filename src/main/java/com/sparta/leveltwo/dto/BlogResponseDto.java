@@ -7,19 +7,19 @@ import java.time.LocalDateTime;
 
 @Getter
 public class BlogResponseDto {
-    private Long id;
-    private String username;
-    private String contents;
     private String title;
+    private String author;
+    private String content;
     private LocalDateTime createdAt;
     private LocalDateTime modifiedAt;
+    private Long id;
 
     public BlogResponseDto(Blog blog) {
-        this.id = blog.getId();
-        this.username = blog.getAuthor();
-        this.contents = blog.getContents();
+        this.author = blog.getAuthor();
+        this.content = blog.getContent();
         this.title = blog.getTitle();
         this.createdAt = blog.getCreatedAt();
         this.modifiedAt = blog.getModifiedAt();
+        this.id = blog.getId();
     }
 }

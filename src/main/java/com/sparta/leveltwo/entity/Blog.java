@@ -4,11 +4,9 @@ import com.sparta.leveltwo.dto.BlogRequestDto;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
-import lombok.Setter;
 
 @Entity // JPA가 관리할 Entitu 클래스 저장
 @Getter
-@Setter
 @Table(name = "blog") //  매핑할 블로그 명 지정
 @NoArgsConstructor
 public class Blog extends Timestamped {
@@ -17,28 +15,24 @@ public class Blog extends Timestamped {
     @GeneratedValue(strategy = GenerationType.IDENTITY) // auto_increment 걸어주기
     private Long id;
 
+    @Column(name = "title", nullable = false)
+    private String title;
+
     @Column(name ="author", nullable = false)
     private String author;
 
-    @Column(name = "contents", nullable = false, length = 500) // length의 디폴트는 255
-    private String contents;
-
-    @Column(name = "title", nullable = false, length = 300)
-    private String title;
+    @Column(name = "content", nullable = false, length = 500) // length의 디폴트는 255
+    private String content;
 
 
     public Blog(BlogRequestDto requestDto, String username) {
-        this.author = username;
-        this.contents = requestDto.getContents();
         this.title = requestDto.getTitle();
+        this.author = username;
+        this.content = requestDto.getContent();
     }
 
     public void update(BlogRequestDto requestDto) {
-        this.contents = requestDto.getContents();
         this.title = requestDto.getTitle();
-    }
-
-    public Long getId() {
-        return id;
+        this.content = requestDto.getContent();
     }
 }
